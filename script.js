@@ -1,4 +1,3 @@
-//your JS code here. If required.
 document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.getElementById("output");
     const loadingRow = document.createElement("tr");
@@ -9,37 +8,39 @@ document.addEventListener("DOMContentLoaded", () => {
         return Math.random() * 2000 + 1000; // Random time between 1 and 3 seconds
     }
 
-    const promises = [
-        new Promise(resolve => {
-            const time = getRandomTime();
-            setTimeout(() => resolve({ name: "Promise 1", time: (time / 1000).toFixed(3) }), time);
-        }),
-        new Promise(resolve => {
-            const time = getRandomTime();
-            setTimeout(() => resolve({ name: "Promise 2", time: (time / 1000).toFixed(3) }), time);
-        }),
-        new Promise(resolve => {
-            const time = getRandomTime();
-            setTimeout(() => resolve({ name: "Promise 3", time: (time / 1000).toFixed(3) }), time);
-        })
-    ];
+    setTimeout(() => {
+        const promises = [
+            new Promise(resolve => {
+                const time = getRandomTime();
+                setTimeout(() => resolve({ name: "Promise 1", time: (time / 1000).toFixed(3) }), time);
+            }),
+            new Promise(resolve => {
+                const time = getRandomTime();
+                setTimeout(() => resolve({ name: "Promise 2", time: (time / 1000).toFixed(3) }), time);
+            }),
+            new Promise(resolve => {
+                const time = getRandomTime();
+                setTimeout(() => resolve({ name: "Promise 3", time: (time / 1000).toFixed(3) }), time);
+            })
+        ];
 
-    const startTime = performance.now();
+        const startTime = performance.now();
 
-    Promise.all(promises).then(results => {
-        const endTime = performance.now();
-        const totalTime = ((endTime - startTime) / 1000).toFixed(3);
-        
-        tableBody.innerHTML = ""; // Remove loading text
+        Promise.all(promises).then(results => {
+            const endTime = performance.now();
+            const totalTime = ((endTime - startTime) / 1000).toFixed(3);
+            
+            tableBody.innerHTML = ""; // Remove loading text
 
-        results.forEach(result => {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>${result.name}</td><td>${result.time} sec</td>`;
-            tableBody.appendChild(row);
+            results.forEach(result => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${result.name}</td><td>${result.time} sec</td>`;
+                tableBody.appendChild(row);
+            });
+
+            const totalRow = document.createElement("tr");
+            totalRow.innerHTML = `<td>Total</td><td>${totalTime} sec</td>`;
+            tableBody.appendChild(totalRow);
         });
-
-        const totalRow = document.createElement("tr");
-        totalRow.innerHTML = `<td>Total</td><td>${totalTime} sec</td>`;
-        tableBody.appendChild(totalRow);
-    });
+    }, 100); // Short delay to ensure Loading message appears
 });
